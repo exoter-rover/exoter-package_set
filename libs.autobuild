@@ -1,0 +1,49 @@
+## Define here packages that are not dependent on oroGen
+cmake_package 'drivers/imu_stim300' #Temporary stim300 imu (waiting to merge the pull request)
+cmake_package 'drivers/gnss_trimble' #GNSS driver
+cmake_package 'exoter/exoter' #Dedicated ExoTer library
+cmake_package 'exoter/locomotion_control' #This library is an specialization of generic_rover_manoeuvre
+cmake_package 'drivers/platform_driver' #Elmo driver
+cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 2D motion commands to required joint commands
+
+## ESA-NPI localization
+cmake_package 'slam/localization' #Localization library
+
+#if !has_pcan_api? # defined in init.rb
+#    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"
+#end
+
+#cmake_package 'drivers/pcan_pcie_mini'
+
+import_package 'drivers/pcan_pcie_mini' do |pkg|
+    def pkg.do_build
+        Autoproj.message "Importing package PCI Express Mini"
+        #system('ls -la')
+        #run('build', Autobuild.tool(:make), "-j#{parallel_build_level}", "-C", .)
+    end
+
+    pkg.post_install do
+        pkg.progress_start "building %s" do
+            pkg.do_build
+        end
+    end
+end
+
+# Kernel driver for RTD PCIE UARTs
+import_package 'drivers/exar_pcie_uart' do |pkg|
+    def pkg.do_build
+        Autoproj.message "Importing package PCI Express UART for the Trimble BD970 RTD Module of the PC-104"
+        #system('ls -la')
+        #run('build', Autobuild.tool(:make), "-j#{parallel_build_level}", "-C", .)
+    end
+
+    pkg.post_install do
+        pkg.progress_start "building %s" do
+            pkg.do_build
+        end
+    end
+end
+
+
+bundle_package 'bundles/exoter'
+

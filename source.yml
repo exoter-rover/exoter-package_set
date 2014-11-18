@@ -1,0 +1,84 @@
+name: exoter
+
+imports:
+    - github: rock-core/package_set
+    - github: rock-core/rock-package_set
+
+version_control:
+
+    - exoter/.*:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - exoter/orogen/.*:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - control/.*:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - control/orogen/.*:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - drivers/.*:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - bundles/exoter:
+      type: svn
+      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+
+    - exoter/orogen/localization_frontend:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/orogen-localization_frontend.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-localization_frontend.git
+
+    - slam/localization:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/localization.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/localization.git
+
+    - slam/orogen/cloning_localization:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/orogen-localization.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-localization.git
+
+    - slam/orogen/pituki:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/orogen-pituki.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-pituki.git
+
+    - image_processing/orogen/icp:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/orogen-icp.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-icp.git
+
+    - drivers/pcan_pcie_mini:
+      type: archive
+      url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.10.tar.gz
+      update_cached_file: false
+
+    - drivers/gnss_trimble:
+      gitorious: rock-drivers/gnss_trimble.git
+      branch: $ROCK_FLAVOR
+
+    - drivers/orogen/gnss_trimble:
+      gitorious: rock-drivers/orogen-gnss_trimble.git
+      branch: $ROCK_FLAVOR
+
+#    - drivers/exar_pcie_uart:
+#      type: archive
+#      url: http://www.exar.com/common/content/document.ashx?id=21240
+#      update_cached_file: false
+
+# Temporal solution until the pull request rock package_set is merged into master branch
+    - drivers/imu_stim300:
+      github: rock-drivers/drivers-imu_stim300
+      branch: $ROCK_FLAVOR
+
+    - drivers/orogen/imu_stim300:
+      github: rock-drivers/drivers-orogen-imu_stim300
+      branch: $ROCK_FLAVOR
+
