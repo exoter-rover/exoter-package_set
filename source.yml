@@ -16,7 +16,7 @@ version_control:
       github: exoter-rover/control-$PACKAGE_BASENAME
 
     - control/orogen/.*:
-      github: exoter-rover/control-orogen-PACKAGE_BASENAME
+      github: exoter-rover/control-orogen-$PACKAGE_BASENAME
 
     - drivers/.*:
       github: exoter-rover/drivers-$PACKAGE_BASENAME
