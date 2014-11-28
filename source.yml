@@ -65,12 +65,3 @@ version_control:
       url: http://www.exar.com/common/content/document.ashx?id=21240
       update_cached_file: false
 
-# Temporal solution until the pull request rock package_set is merged into master branch
-    - drivers/imu_stim300:
-      github: rock-drivers/drivers-imu_stim300
-      branch: $ROCK_FLAVOR
-
-    - drivers/orogen/imu_stim300:
-      github: rock-drivers/drivers-orogen-imu_stim300
-      branch: $ROCK_FLAVOR
-
