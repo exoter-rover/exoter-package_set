@@ -1,7 +1,7 @@
 ## Define here packages that are not dependent on oroGen
 cmake_package 'drivers/gnss_trimble' #GNSS driver
 cmake_package 'exoter/kinematics' #Dedicated ExoTer Kinematics library
-cmake_package 'exoter/kinematics' #Dedicated ExoTer Dynamics library
+cmake_package 'exoter/dynamics' #Dedicated ExoTer Dynamics library
 cmake_package 'control/locomotion_control' #This library is an specialization of generic_rover_manoeuvre
 cmake_package 'drivers/platform_driver' #Elmo driver
 cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 2D motion commands to required joint commands
