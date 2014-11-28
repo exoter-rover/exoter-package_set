@@ -7,33 +7,25 @@ imports:
 version_control:
 
     - exoter/.*:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+      github: exoter-rover/exoter-$PACKAGE_BASENAME
 
     - exoter/orogen/.*:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+      github: exoter-rover/exoter-orogen-$PACKAGE_BASENAME
 
     - control/.*:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+      github: exoter-rover/control-$PACKAGE_BASENAME
 
     - control/orogen/.*:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+      github: exoter-rover/control-orogen-PACKAGE_BASENAME
 
     - drivers/.*:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
+      github: exoter-rover/drivers-$PACKAGE_BASENAME
+
+    - drivers/orogen/.*:
+      github: exoter-rover/drivers-orogen-$PACKAGE_BASENAME
 
     - bundles/exoter:
-      type: svn
-      url: http://intranet.robotics.esa.int/svn/ROBS/trunk/$PACKAGE
-
-    - exoter/orogen/localization_frontend:
-      type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/orogen-localization_frontend.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-localization_frontend.git
+      github: exoter-rover/bundles-$PACKAGE_BASENAME
 
     - slam/localization:
       type: git
