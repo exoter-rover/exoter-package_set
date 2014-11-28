@@ -1,5 +1,4 @@
 ## Define here packages that are not dependent on oroGen
-cmake_package 'drivers/imu_stim300' #Temporary stim300 imu (waiting to merge the pull request)
 cmake_package 'drivers/gnss_trimble' #GNSS driver
 cmake_package 'exoter/exoter' #Dedicated ExoTer library
 cmake_package 'exoter/locomotion_control' #This library is an specialization of generic_rover_manoeuvre

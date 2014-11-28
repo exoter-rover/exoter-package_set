@@ -1,6 +1,5 @@
 if package_enabled?('orogen')
 
-    orogen_package 'drivers/orogen/imu_stim300' #Temporary stim300 imu (waiting to merge the pull request)
     orogen_package 'drivers/orogen/gnss_trimble'
 
     # Exoter Drivers
