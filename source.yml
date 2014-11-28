@@ -60,8 +60,8 @@ version_control:
       gitorious: rock-drivers/orogen-gnss_trimble.git
       branch: $ROCK_FLAVOR
 
-    - drivers/exar_pcie_uart:
-      type: archive
-      url: http://www.exar.com/common/content/document.ashx?id=21240
-      update_cached_file: false
-
+#    - drivers/exar_pcie_uart:
+#      type: archive
+#      url: http://www.exar.com/common/content/document.ashx?id=21240
+#      update_cached_file: false
+#
