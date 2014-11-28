@@ -60,6 +60,10 @@ version_control:
       gitorious: rock-drivers/orogen-gnss_trimble.git
       branch: $ROCK_FLAVOR
 
+    - drivers/orogen/camera_bb2:
+      github: rock-drivers/drivers-orogen-camera_bb2.git
+      branch: $ROCK_FLAVOR
+
     - drivers/exar_pcie_uart:
       github: exoter-rover/drivers-$PACKAGE_BASENAME
 
