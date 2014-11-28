@@ -7,15 +7,17 @@ if package_enabled?('orogen')
     orogen_package 'drivers/orogen/camera_bb2'
 
     # Exoter dedicated packages
-    orogen_package 'exoter/orogen/locomotion_control'
-    orogen_package 'exoter/orogen/ptu_control'
     orogen_package 'exoter/orogen/exoter_deployments'
     orogen_package 'exoter/orogen/locomotion_demo'
     orogen_package 'exoter/orogen/wheel_walking_test'
     orogen_package 'exoter/orogen/exoter_odometry'
-    orogen_package 'exoter/orogen/wheelwalking_control'
-    orogen_package 'exoter/orogen/egress_control'
     orogen_package 'exoter/orogen/localization_frontend'
+
+    # Control dedicated packages
+    orogen_package 'control/orogen/locomotion_control'
+    orogen_package 'control/orogen/ptu_control'
+    orogen_package 'control/orogen/wheelwalking_control'
+    orogen_package 'control/orogen/egress_control'
 
     # ESA-NPI localization
     orogen_package 'slam/orogen/cloning_localization'
