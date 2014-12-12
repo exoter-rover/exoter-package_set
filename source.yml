@@ -28,12 +28,12 @@ version_control:
       github: exoter-rover/bundles-$PACKAGE_BASENAME
 
     - slam/localization:
-      github: exoter-rover/slam-$PACKAGE_BASENAME
+      github: jhidalgocarrio/slam-$PACKAGE_BASENAME
 
     - slam/orogen/cloning_localization:
       type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/orogen-localization.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/orogen-localization.git
+      url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-localization.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-localization.git
 
     - slam/orogen/pituki:
       type: git
