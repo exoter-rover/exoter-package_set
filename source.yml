@@ -28,7 +28,7 @@ version_control:
       github: exoter-rover/bundles-$PACKAGE_BASENAME
 
     - slam/localization:
-      github: jhidalgocarrio/slam-$PACKAGE_BASENAME
+      github: exoter-rover/slam-$PACKAGE_BASENAME
 
     - slam/orogen/cloning_localization:
       type: git
