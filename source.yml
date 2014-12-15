@@ -18,12 +18,6 @@ version_control:
     - control/orogen/.*:
       github: exoter-rover/control-orogen-$PACKAGE_BASENAME
 
-    - drivers/.*:
-      github: exoter-rover/drivers-$PACKAGE_BASENAME
-
-    - drivers/orogen/.*:
-      github: exoter-rover/drivers-orogen-$PACKAGE_BASENAME
-
     - bundles/exoter:
       github: exoter-rover/bundles-$PACKAGE_BASENAME
 
@@ -53,6 +47,9 @@ version_control:
     - drivers/gnss_trimble:
       gitorious: rock-drivers/gnss_trimble.git
       branch: $ROCK_FLAVOR
+
+    - drivers/iodrivers_base:
+      github: exoter-rover/drivers-iodrivers_base
 
     - drivers/orogen/gnss_trimble:
       gitorious: rock-drivers/orogen-gnss_trimble.git
