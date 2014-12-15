@@ -51,6 +51,9 @@ version_control:
     - drivers/iodrivers_base:
       github: exoter-rover/drivers-iodrivers_base
 
+    - drivers/orogen/platform_driver:
+      github: exoter-rover/drivers-orogen-platform_driver
+
     - drivers/orogen/gnss_trimble:
       gitorious: rock-drivers/orogen-gnss_trimble.git
       branch: $ROCK_FLAVOR
