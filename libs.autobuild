@@ -1,5 +1,4 @@
 ## Define here packages that are not dependent on oroGen
-cmake_package 'drivers/iodrivers_base' #IO drivers
 cmake_package 'drivers/gnss_trimble' #GNSS driver
 cmake_package 'exoter/kinematics' #Dedicated ExoTer Kinematics library
 cmake_package 'exoter/dynamics' #Dedicated ExoTer Dynamics library
