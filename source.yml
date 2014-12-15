@@ -51,6 +51,9 @@ version_control:
     - drivers/iodrivers_base:
       github: exoter-rover/drivers-iodrivers_base
 
+    - drivers/platform_driver:
+      github: exoter-rover/drivers-platform_driver
+
     - drivers/orogen/platform_driver:
       github: exoter-rover/drivers-orogen-platform_driver
 
