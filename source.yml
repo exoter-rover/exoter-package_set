@@ -1,8 +1,8 @@
 name: exoter
 
-imports:
-    - github: rock-core/package_set
-    - github: rock-core/rock-package_set
+#imports:
+#    - github: rock-core/package_set
+#    - github: rock-core/rock-package_set
 
 version_control:
 
