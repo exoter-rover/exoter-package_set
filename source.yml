@@ -1,9 +1,5 @@
 name: exoter
 
-#imports:
-#    - github: rock-core/package_set
-#    - github: rock-core/rock-package_set
-
 version_control:
 
     - exoter/.*:
@@ -48,9 +44,6 @@ version_control:
       gitorious: rock-drivers/gnss_trimble.git
       branch: $ROCK_FLAVOR
 
-    - drivers/iodrivers_base:
-      github: exoter-rover/drivers-iodrivers_base
-
     - drivers/platform_driver:
       github: exoter-rover/drivers-platform_driver
 
@@ -67,4 +60,9 @@ version_control:
 
     - drivers/exar_pcie_uart:
       github: exoter-rover/drivers-$PACKAGE_BASENAME
+
+overrides:
+
+    - drivers/iodrivers_base:
+      github: exoter-rover/drivers-iodrivers_base
 
