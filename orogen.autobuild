@@ -21,6 +21,7 @@ if package_enabled?('orogen')
 
     # ESA-NPI localization
     orogen_package 'slam/orogen/cloning_localization'
+    orogen_package 'slam/orogen/threed_odometry'
 
     # Registration
     orogen_package 'image_processing/orogen/icp'
