@@ -59,9 +59,6 @@ version_control:
       url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.10.tar.gz
       update_cached_file: false
 
-    - drivers/gnss_trimble:
-      gitorious: rock-drivers/gnss_trimble.git
-      branch: $ROCK_FLAVOR
 
     - drivers/platform_driver:
       github: exoter-rover/drivers-platform_driver
@@ -70,14 +67,16 @@ version_control:
       github: exoter-rover/drivers-orogen-platform_driver
 
     - drivers/ar_tracking:
-      github: exoter-rover/drivers-ar_tracking
+      github: rock-drivers/drivers-ar_tracking
 
     - drivers/orogen/ar_tracking:
-      github: exoter-rover/drivers-orogen-ar_tracking
+      github: rock-drivers/drivers-orogen-ar_tracking
+
+    - drivers/gnss_trimble:
+      github: rock-drivers/drivers-gnss_trimble.git
 
     - drivers/orogen/gnss_trimble:
-      gitorious: rock-drivers/orogen-gnss_trimble.git
-      branch: $ROCK_FLAVOR
+      github: rock-drivers/drivers-orogen-gnss_trimble.git
 
     - drivers/orogen/camera_bb2:
       github: rock-drivers/drivers-orogen-camera_bb2.git
