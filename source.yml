@@ -18,18 +18,18 @@ version_control:
       github: exoter-rover/bundles-$PACKAGE_BASENAME
 
     - exoter/orogen/exoter_deployments:
-      github: jhidalgocarrio/exoter-orogen-exoter_deployments
+      github: exoter-rover/exoter-orogen-exoter_deployments
 
     - slam/localization:
-      github: jhidalgocarrio/slam-$PACKAGE_BASENAME
-
-    - slam/threed_odometry:
-      github: rock-slam/slam-threed_odometry
+      github: exoter-rover/slam-$PACKAGE_BASENAME
 
     - slam/orogen/cloning_localization:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-localization.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-localization.git
+
+    - slam/threed_odometry:
+      github: rock-slam/slam-threed_odometry
 
     - slam/orogen/threed_odometry:
       github: rock-slam/slam-orogen-threed_odometry
