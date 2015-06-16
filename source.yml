@@ -34,7 +34,7 @@ version_control:
     - slam/orogen/threed_odometry:
       github: rock-slam/slam-orogen-threed_odometry
 
-    - slam/orogen/pituki:
+    - perception/orogen/pituki:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-pituki.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/perception-orogen-pituki.git

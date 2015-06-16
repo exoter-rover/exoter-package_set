@@ -26,10 +26,10 @@ if package_enabled?('orogen')
     orogen_package 'slam/orogen/gp_odometry'
 
     # Registration
-    orogen_package 'image_processing/orogen/icp'
+    orogen_package 'slam/orogen/icp'
 
     # Mapping
-    orogen_package 'slam/orogen/pituki'
+    orogen_package 'perception/orogen/pituki'
 
 else
     Autoproj.warn "oroGen is not enabled, skipping the oroGen packages"
