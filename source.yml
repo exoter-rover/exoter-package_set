@@ -34,16 +34,6 @@ version_control:
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-pituki.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/perception-orogen-pituki.git
 
-    - slam/gp_odometry:
-      type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/slam-gp_odometry.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-gp_odometry.git
-
-    - slam/orogen/gp_odometry:
-      type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-gp_odometry.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-gp_odometry.git
-
     - slam/orogen/icp:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-icp.git
