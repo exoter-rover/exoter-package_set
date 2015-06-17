@@ -21,7 +21,6 @@ if package_enabled?('orogen')
     orogen_package 'control/orogen/egress_control'
 
     # Localization
-    orogen_package 'slam/orogen/cloning_localization'
     orogen_package 'slam/orogen/threed_odometry'
 
     # Registration
