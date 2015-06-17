@@ -23,6 +23,11 @@ version_control:
     - slam/localization:
       github: exoter-rover/slam-$PACKAGE_BASENAME
 
+    - slam/orogen/cloning_localization:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-localization.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-localization.git
+
     - slam/threed_odometry:
       github: rock-slam/slam-threed_odometry
 
