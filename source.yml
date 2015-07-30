@@ -69,3 +69,10 @@ version_control:
     - drivers/exar_pcie_uart:
       github: exoter-rover/drivers-$PACKAGE_BASENAME
 
+    - exoter/data_handling:
+      github: exoter-rover/exoter-data_handling
+
+    - exoter/orogen/data_handling:
+      github: exoter-rover/orogen/exoter-data_handling
+
+
