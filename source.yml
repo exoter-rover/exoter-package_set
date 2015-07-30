@@ -73,6 +73,6 @@ version_control:
       github: exoter-rover/exoter-data_handling
 
     - exoter/orogen/data_handling:
-      github: exoter-rover/orogen/exoter-data_handling
+      github: exoter-rover/exoter-orogen-data_handling
 
 
