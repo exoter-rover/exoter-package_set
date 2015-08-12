@@ -23,6 +23,12 @@ version_control:
     - slam/localization:
       github: exoter-rover/slam-$PACKAGE_BASENAME
 
+    - slam/gp_odometry:
+      github: jhidalgocarrio/slam-$PACKAGE_BASENAME
+
+    - slam/orogen/gp_odometry:
+      github: jhidalgocarrio/slam-orogen-$PACKAGE_BASENAME
+
     - slam/threed_odometry:
       github: rock-slam/slam-threed_odometry
 

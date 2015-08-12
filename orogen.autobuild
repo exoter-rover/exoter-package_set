@@ -22,6 +22,7 @@ if package_enabled?('orogen')
 
     # Localization
     orogen_package 'slam/orogen/threed_odometry'
+    orogen_package 'slam/orogen/gp_odometry'
 
     # Registration
     orogen_package 'slam/orogen/icp'

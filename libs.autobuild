@@ -1,7 +1,7 @@
 ## Define here packages that are not dependent on oroGen
 cmake_package 'drivers/gnss_trimble' #GNSS driver
-cmake_package 'exoter/kinematics' #Dedicated ExoTer Kinematics library
-cmake_package 'exoter/dynamics' #Dedicated ExoTer Dynamics library
+cmake_package 'exoter/exoter_kinematics' #Dedicated ExoTer Kinematics library
+cmake_package 'exoter/exoter_dynamics' #Dedicated ExoTer Dynamics library
 cmake_package 'control/locomotion_control' #This library is an specialization of generic_rover_manoeuvre
 cmake_package 'drivers/platform_driver' #Elmo driver
 cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 2D motion commands to required joint commands
@@ -10,6 +10,7 @@ cmake_package 'drivers/ar_tracking' #Advanced Realtime Tracking System
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
 cmake_package 'slam/threed_odometry' #Generic 3D-Kinematics Odometry
+cmake_package 'slam/gp_odometry' #GP odometry
 
 #if !has_pcan_api? # defined in init.rb
 #    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"
