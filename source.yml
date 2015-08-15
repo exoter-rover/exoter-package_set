@@ -21,7 +21,7 @@ version_control:
       github: exoter-rover/exoter-orogen-exoter_deployments
 
     - slam/localization:
-      github: exoter-rover/slam-$PACKAGE_BASENAME
+      github: exoter-rover/slam-localization
 
     - slam/gp_odometry:
       github: jhidalgocarrio/slam-gp_odometry
