@@ -24,10 +24,10 @@ version_control:
       github: exoter-rover/slam-$PACKAGE_BASENAME
 
     - slam/gp_odometry:
-      github: jhidalgocarrio/slam-$PACKAGE_BASENAME
+      github: jhidalgocarrio/slam-gp_odometry
 
     - slam/orogen/gp_odometry:
-      github: jhidalgocarrio/slam-orogen-$PACKAGE_BASENAME
+      github: jhidalgocarrio/slam-orogen-gp_odometry
 
     - slam/threed_odometry:
       github: rock-slam/slam-threed_odometry
@@ -37,13 +37,13 @@ version_control:
 
     - slam/orogen/pituki:
       type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-pituki.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/perception-orogen-pituki.git
+      url: $GITHUB_ROOT/exoter-rover/perception-orogen-pituki.git
+      push_to: $GITHUB_PUSH_ROOT/exoter-rover/perception-orogen-pituki.git
 
     - slam/orogen/icp:
       type: git
-      url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-icp.git
-      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-icp.git
+      url: $GITHUB_ROOT/exoter-rover/slam-orogen-icp.git
+      push_to: $GITHUB_PUSH_ROOT/exoter-rover/slam-orogen-icp.git
 
     - drivers/pcan_pcie_mini:
       type: archive
