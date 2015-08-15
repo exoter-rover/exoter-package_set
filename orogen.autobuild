@@ -13,7 +13,7 @@ if package_enabled?('orogen')
     orogen_package 'exoter/orogen/wheel_walking_test'
     orogen_package 'exoter/orogen/exoter_odometry'
     orogen_package 'exoter/orogen/localization_frontend'
-    orogen_package 'exoter/orogen/data_handling'
+    orogen_package 'exoter/orogen/telemetry_telecommand'
 
     # Control dedicated packages
     orogen_package 'control/orogen/locomotion_control'

@@ -1,5 +1,9 @@
 popt:
     debian, ubuntu: libpopt-dev
 
+sdl:
+    debian,ubuntu: libsdl-net1.2
 
+sdl-dev:
+    debian,ubuntu: libsdl-net1.2-dev
 

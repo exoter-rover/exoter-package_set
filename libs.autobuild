@@ -6,7 +6,7 @@ cmake_package 'control/locomotion_control' #This library is an specialization of
 cmake_package 'drivers/platform_driver' #Elmo driver
 cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 2D motion commands to required joint commands
 cmake_package 'drivers/ar_tracking' #Advanced Realtime Tracking System
-cmake_package 'exoter/data_handling' #Dedicated ExoTer Data Handling library to talk to RAT GCS
+cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling library to talk to RAT GCS
 
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
