@@ -25,6 +25,9 @@ if package_enabled?('orogen')
     orogen_package 'slam/orogen/threed_odometry'
     orogen_package 'slam/orogen/gp_odometry'
 
+    # Perception
+    orogen_package 'perception/orogen/visual_stereo'
+
     # Registration
     orogen_package 'slam/orogen/icp'
 

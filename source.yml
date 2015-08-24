@@ -45,6 +45,11 @@ version_control:
       url: $GITHUB_ROOT/exoter-rover/slam-orogen-icp.git
       push_to: $GITHUB_PUSH_ROOT/exoter-rover/slam-orogen-icp.git
 
+    - perception/orogen/visual_stereo:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
+
     - drivers/pcan_pcie_mini:
       type: archive
       url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.10.tar.gz
