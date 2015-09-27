@@ -13,6 +13,8 @@ cmake_package 'slam/localization' #Localization library
 cmake_package 'slam/threed_odometry' #Generic 3D-Kinematics Odometry
 cmake_package 'slam/gp_odometry' #GP odometry
 
+cmake_package 'slam/cpu_tsdf' #TSDF in CPU
+
 #if !has_pcan_api? # defined in init.rb
 #    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"
 #end

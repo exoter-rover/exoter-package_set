@@ -26,6 +26,9 @@ version_control:
     - slam/gp_odometry:
       github: jhidalgocarrio/slam-gp_odometry
 
+    - slam/cpu_tsdf:
+      github: exoter-rover/cpu_tsdf
+
     - slam/orogen/gp_odometry:
       github: jhidalgocarrio/slam-orogen-gp_odometry
 
