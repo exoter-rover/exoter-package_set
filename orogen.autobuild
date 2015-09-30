@@ -33,6 +33,7 @@ if package_enabled?('orogen')
 
     # Mapping
     orogen_package 'slam/orogen/pituki'
+    orogen_package 'slam/orogen/sam'
 
 else
     Autoproj.warn "oroGen is not enabled, skipping the oroGen packages"

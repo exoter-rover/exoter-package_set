@@ -51,6 +51,11 @@ version_control:
       url: $GITHUB_ROOT/exoter-rover/slam-orogen-icp.git
       push_to: $GITHUB_PUSH_ROOT/exoter-rover/slam-orogen-icp.git
 
+    - slam/orogen/sam:
+      type: git
+      url: $GITHUB_ROOT/exoter-rover/slam-orogen-sam.git
+      push_to: $GITHUB_PUSH_ROOT/exoter-rover/slam-orogen-sam.git
+
     - perception/orogen/visual_stereo:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
