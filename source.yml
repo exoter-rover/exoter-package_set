@@ -26,11 +26,14 @@ version_control:
     - slam/gp_odometry:
       github: jhidalgocarrio/slam-gp_odometry
 
-    - slam/cpu_tsdf:
-      github: exoter-rover/cpu_tsdf
+    - perception/cpu_tsdf:
+      github: exoter-rover/perception-cpu_tsdf
 
     - slam/gtsam:
-      github: exoter-rover/gtsam_pcl
+      github: exoter-rover/slam-gtsam
+
+    - slam/envire_sam:
+      github: exoter-rover/slam-envire_sam
 
     - slam/orogen/gp_odometry:
       github: jhidalgocarrio/slam-orogen-gp_odometry
