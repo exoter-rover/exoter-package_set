@@ -13,7 +13,7 @@ cmake_package 'slam/localization' #Localization library
 cmake_package 'slam/threed_odometry' #Generic 3D-Kinematics Odometry
 cmake_package 'slam/gp_odometry' #GP odometry
 
-cmake_package 'slam/cpu_tsdf' #TSDF in CPU
+cmake_package 'perception/cpu_tsdf' #TSDF in CPU
 cmake_package 'slam/gtsam' #Georgia Tech Smooth and Mapping
 cmake_package 'slam/envire_sam' #Envire wrapper for the Georgia Tech Smooth and Mapping
 
