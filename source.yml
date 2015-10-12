@@ -86,4 +86,10 @@ version_control:
     - drivers/orogen/telemetry_telecommand:
       github: exoter-rover/drivers-orogen-telemetry_telecommand
 
+    - perception/stereo:
+      github: rock-perception/perception-stereo
+
+    - perception/orogen/stereo:
+      github: rock-perception/perception-orogen-stereo
+
 
