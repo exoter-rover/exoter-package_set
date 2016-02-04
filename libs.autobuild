@@ -21,37 +21,24 @@ cmake_package 'slam/envire_sam' #Envire wrapper for the Georgia Tech Smooth and 
 #    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"
 #end
 
-#cmake_package 'drivers/pcan_pcie_mini'
-
-import_package 'drivers/pcan_pcie_mini' do |pkg|
-    def pkg.do_build
-        Autoproj.message "Importing package PCI Express Mini"
-        #system('ls -la')
-        #run('build', Autobuild.tool(:make), "-j#{parallel_build_level}", "-C", .)
-    end
-
-    pkg.post_install do
-        pkg.progress_start "building %s" do
-            pkg.do_build
-        end
-    end
-end
-
 # Kernel driver for RTD PCIE UARTs
 import_package 'drivers/exar_pcie_uart' do |pkg|
-    def pkg.do_build
-        Autoproj.message "Importing package PCI Express UART for the Trimble BD970 RTD Module of the PC-104"
-        #system('ls -la')
-        #run('build', Autobuild.tool(:make), "-j#{parallel_build_level}", "-C", .)
-    end
-
     pkg.post_install do
-        pkg.progress_start "building %s" do
-            pkg.do_build
-        end
+        pkg.message "Importing package PCI Express UART for the Trimble BD970 RTD Module of the PC-104"
+        # Autobuild::Subprocess.run(pkg, 'build', 'sudo make build', :working_directory => pkg.srcdir)
     end
 end
 
+import_package 'drivers/pcan_pcie_mini' do |pkg|
+    pkg.post_import do
+        pkg.message "Importing package PCI Express Mini"
+        Autobuild::Subprocess.run(pkg, 'build', 'make NET=NO', :working_directory => pkg.srcdir)
+    end
+    pkg.post_install do
+        pkg.message "Installing package PCI Express Mini"
+        Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
+    end
+end
 
 bundle_package 'bundles/exoter'
 
