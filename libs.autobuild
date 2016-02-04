@@ -35,7 +35,11 @@ import_package 'drivers/pcan_pcie_mini' do |pkg|
     end
     pkg.post_install do
         pkg.message "Installing package PCI Express Mini"
-        Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
+        Autobuild::Subprocess.run(pkg, 'install', "mkdir -p ${AUTOPROJ_CURRENT_ROOT}/install/"+pkg.name+"/ && cp driver/pcan.h ${AUTOPROJ_CURRENT_ROOT}/install/"+ pkg.name + "/", :working_directory => pkg.srcdir)
+
+        # For the ExoTeR rover with sudo rights
+        #Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
+        #Autobuild::Subprocess.run(pkg, 'install', 'sudo modprobe pcan')
     end
 end
 
