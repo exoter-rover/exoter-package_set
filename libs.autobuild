@@ -31,7 +31,6 @@ end
 
 import_package 'drivers/pcan_pcie_mini' do |pkg|
     pkg.post_import do
-        pkg.message "Importing package PCI Express Mini"
         Autobuild::Subprocess.run(pkg, 'build', 'make NET=NO', :working_directory => pkg.srcdir)
     end
     pkg.post_install do
