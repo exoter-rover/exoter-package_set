@@ -1,0 +1,8 @@
+<package>
+  <description brief="The PCIe Multiport serial driver Ver 1.5, supports following multiport boards.">
+  </description>
+  <author>EXAR</author>
+  <license>GPL</license>
+  <url>https://www.exar.com/connectivity/uart-and-bridging-solutions/pcie-uarts/xr17v352</url>
+  <tags>stable</tags>
+</package>
