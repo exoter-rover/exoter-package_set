@@ -1,0 +1,9 @@
+<package>
+  <description brief="Peak Can Driver for PCI Express.">
+  </description>
+  <author>Peak System</author>
+  <license>GPL</license>
+  <url>http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.10.tar.gz</url>
+  <rosdep name="popt" />
+  <tags>stable</tags>
+</package>
