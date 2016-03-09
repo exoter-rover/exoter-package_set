@@ -29,9 +29,6 @@ version_control:
     - perception/cpu_tsdf:
       github: exoter-rover/perception-cpu_tsdf
 
-    - slam/gtsam:
-      github: exoter-rover/slam-gtsam
-
     - slam/envire_sam:
       github: exoter-rover/slam-envire_sam
 
