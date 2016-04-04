@@ -63,7 +63,7 @@ version_control:
 
     - drivers/pcan_pcie_mini:
       type: archive
-      url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.10.tar.gz
+      url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.15.2.tar.gz
       update_cached_file: false
 
     - drivers/platform_driver:
