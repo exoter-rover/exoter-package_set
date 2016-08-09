@@ -31,9 +31,10 @@ if package_enabled?('orogen')
     # Registration
     orogen_package 'slam/orogen/icp'
 
-    # Mapping
+    # Localization and Mapping
     orogen_package 'slam/orogen/pituki'
     orogen_package 'slam/orogen/sam'
+    orogen_package 'slam/orogen/vsd_slam'
 
 else
     Autoproj.warn "oroGen is not enabled, skipping the oroGen packages"
