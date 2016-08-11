@@ -22,22 +22,44 @@ cmake_package 'slam/envire_sam' #Envire wrapper for the Georgia Tech Smooth and 
 
 # Kernel driver for RTD PCIE UARTs
 import_package 'drivers/exar_pcie_uart' do |pkg|
-    pkg.post_install do
-        pkg.message "Importing package PCI Express UART for the Trimble BD970 RTD Module of the PC-104"
-        # Autobuild::Subprocess.run(pkg, 'build', 'sudo make build', :working_directory => pkg.srcdir)
+    def pkg.prepare
+        super
+        isolate_errors do
+            build
+            progress_done
+        end
+    end
+
+    def pkg.build
+        in_dir (srcdir) do
+            #message "Building PCI Express UART for the Trimble BD970 RTD PC-104 Module"
+            #Autobuild::Subprocess.run(pkg, 'build', 'sudo make build', :working_directory => pkg.srcdir)
+        end
     end
 end
 
 import_package 'drivers/pcan_pcie_mini' do |pkg|
-    pkg.post_import do
-        Autobuild::Subprocess.run(pkg, 'build', 'make NET=NO', :working_directory => pkg.srcdir)
+    def pkg.prepare
+        #message "Importing MINI PCI Express package"
+        super
+        isolate_errors do
+            build
+            progress_done
+        end
     end
-    pkg.post_install do
-        pkg.message "Installing package PCI Express Mini"
-        Autobuild::Subprocess.run(pkg, 'install', "mkdir -p ${AUTOPROJ_CURRENT_ROOT}/install/include && cp -R lib/*.h ${AUTOPROJ_CURRENT_ROOT}/install/include/ && cp -R driver/*.h ${AUTOPROJ_CURRENT_ROOT}/install/include/", :working_directory => pkg.srcdir)
-        Autobuild::Subprocess.run(pkg, 'install', "mkdir -p ${AUTOPROJ_CURRENT_ROOT}/install/lib && cp lib/libpcan.so ${AUTOPROJ_CURRENT_ROOT}/install/lib/", :working_directory => pkg.srcdir)
-        Autobuild::Subprocess.run(pkg, 'install', "sudo make install", :working_directory => pkg.srcdir)
-        #Autobuild::Subprocess.run(pkg, 'install', "sudo modprobe pcan", :working_directory => pkg.srcdir)
+
+    def pkg.build
+        in_dir (srcdir) do
+            run("build", Autobuild.tool(:make), 'make NET=NO')
+        end
+    end
+    def pkg.install
+        include_install_prefix = File.join(prefix, "include", name.split('/')[1])
+        FileUtils.mkdir_p include_install_prefix
+
+        FileUtils.install(File.join(srcdir, "lib","libpcan.h"), include_install_prefix)
+        FileUtils.install(File.join(srcdir, "lib","libpcan.so"), File.join(prefix, "lib"))
+        FileUtils.install(File.join(srcdir, "driver","pcan.h"), include_install_prefix)
 
         # For the ExoTeR rover with sudo rights
         #Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
