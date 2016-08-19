@@ -50,7 +50,7 @@ import_package 'drivers/pcan_pcie_mini' do |pkg|
 
     def pkg.build
         in_dir (srcdir) do
-            run("build", Autobuild.tool(:make), 'make NET=NO')
+            run("build", Autobuild.tool(:make), 'NET=NO')
         end
     end
     def pkg.install
@@ -64,8 +64,10 @@ import_package 'drivers/pcan_pcie_mini' do |pkg|
         FileUtils.install(File.join(srcdir, "lib","libpcan.so"), File.join(prefix, "lib"))
 
         # For the ExoTeR rover with sudo rights
-        #Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
-        #Autobuild::Subprocess.run(pkg, 'install', 'sudo modprobe pcan')
+        in_dir (srcdir) do
+            run('install', 'sudo make install ')
+            #run('install', 'sudo modprobe pcan')
+        end
     end
 end
 
