@@ -58,8 +58,10 @@ import_package 'drivers/pcan_pcie_mini' do |pkg|
         FileUtils.mkdir_p include_install_prefix
 
         FileUtils.install(File.join(srcdir, "lib","libpcan.h"), include_install_prefix)
-        FileUtils.install(File.join(srcdir, "lib","libpcan.so"), File.join(prefix, "lib"))
         FileUtils.install(File.join(srcdir, "driver","pcan.h"), include_install_prefix)
+
+        FileUtils.mkdir_p File.join(prefix, "lib")
+        FileUtils.install(File.join(srcdir, "lib","libpcan.so"), File.join(prefix, "lib"))
 
         # For the ExoTeR rover with sudo rights
         #Autobuild::Subprocess.run(pkg, 'install', 'sudo make install', :working_directory => pkg.srcdir)
