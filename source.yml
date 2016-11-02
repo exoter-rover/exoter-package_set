@@ -61,6 +61,11 @@ version_control:
       url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-vsd_slam.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-vsd_slam.git
 
+    - slam/orb_slam2:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/slam-orb_slam2.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orb_slam2.git
+
     - perception/orogen/visual_stereo:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
@@ -108,4 +113,6 @@ version_control:
     - perception/orogen/stereo:
       github: rock-perception/perception-orogen-stereo
 
-
+    - gui/pangolin:
+      github: stevenlovegrove/Pangolin.git
+      tag: v0.5

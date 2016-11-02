@@ -1,0 +1,8 @@
+<package>
+  <description brief="a lightweight portable rapid development library for managing OpenGL display"> </description>
+  <author>Steven Lovegrove</author>
+  <license>Software without restriction</license>
+  <url>https://github.com/stevenlovegrove/Pangolin.git</url>
+  <rosdep name="glew" />
+  <tags>stable</tags>
+</package>

@@ -11,9 +11,27 @@ cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling li
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
 cmake_package 'slam/gp_odometry' #GP odometry
+import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
+    def pkg.prepare
+        super
+        isolate_errors do
+            build
+            progress_done
+        end
+    end
+
+    def pkg.build
+        in_dir (srcdir) do
+            run("build", "./build.sh")
+        end
+    end
+
+end
 
 cmake_package 'perception/cpu_tsdf' #TSDF in CPU
 cmake_package 'slam/envire_sam' #Envire wrapper for the Georgia Tech Smooth and Mapping
+
+cmake_package 'gui/pangolin'
 
 #if !has_pcan_api? # defined in init.rb
 #    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"

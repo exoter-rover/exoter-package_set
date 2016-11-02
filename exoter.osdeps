@@ -7,3 +7,5 @@ sdl:
 sdl-dev:
     debian,ubuntu: libsdl-net1.2-dev
 
+glew:
+    debian,ubuntu: libglew-dev
