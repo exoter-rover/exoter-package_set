@@ -10,7 +10,17 @@ cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling li
 
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
-cmake_package 'slam/gp_odometry' #GP odometry
+
+cmake_package 'slam/gp_odometry' do |pkg| #GP odometry
+    def pkg.install
+        super
+        # install python sc
+        gp_odometry_install = File.join(prefix, "share", "gp_odometry")
+        FileUtils.mkdir_p gp_odometry_install
+        FileUtils.install(File.join(srcdir, "scripts", "methods.py"), File.join(gp_odometry_install, "methods.py"))
+    end
+end
+
 import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
     def pkg.prepare
         super
