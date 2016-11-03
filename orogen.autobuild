@@ -34,6 +34,7 @@ if package_enabled?('orogen')
     orogen_package 'slam/orogen/pituki'
     orogen_package 'slam/orogen/sam'
     orogen_package 'slam/orogen/vsd_slam'
+    orogen_package 'slam/orogen/orb_slam2'
 
 else
     Autoproj.warn "oroGen is not enabled, skipping the oroGen packages"

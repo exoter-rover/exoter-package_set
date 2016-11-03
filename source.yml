@@ -66,6 +66,11 @@ version_control:
       url: $GITHUB_ROOT/jhidalgocarrio/slam-orb_slam2.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orb_slam2.git
 
+    - slam/orogen/orb_slam2:
+      type: git
+      url: $GITHUB_ROOT/jhidalgocarrio/slam-orogen-orb_slam2.git
+      push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/slam-orogen-orb_slam2.git
+
     - perception/orogen/visual_stereo:
       type: git
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
