@@ -79,6 +79,12 @@ import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
         pkgconfig_prefix = File.join(lib_prefix, "pkgconfig")
         FileUtils.mkdir_p pkgconfig_prefix
         FileUtils.install(File.join(srcdir, "build", "ORB_SLAM2.pc"), File.join(pkgconfig_prefix, "ORB_SLAM2.pc"))
+
+        # Install ORB vocabulary for DBoW2
+        orb_vocabulary_prefix = File.join(prefix, "share", "orb_slam2")
+        FileUtils.mkdir_p orb_vocabulary_prefix
+        FileUtils.install(File.join(srcdir, "Vocabulary", "ORBvoc.txt"), File.join(orb_vocabulary_prefix, "ORBvoc.txt"))
+
     end
 end
 
