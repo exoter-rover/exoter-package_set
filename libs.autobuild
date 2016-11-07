@@ -8,9 +8,13 @@ cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 
 cmake_package 'drivers/ar_tracking' #Advanced Realtime Tracking System
 cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling library to talk to RAT GCS
 
+## Pangolin gui 
+cmake_package 'gui/pangolin'
+
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
 
+## GPs odometry residual error
 cmake_package 'slam/gp_odometry' do |pkg| #GP odometry
     def pkg.install
         super
@@ -21,16 +25,29 @@ cmake_package 'slam/gp_odometry' do |pkg| #GP odometry
     end
 end
 
+## ORB_SLAM2 library
 import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
-    def pkg.build
-        in_dir (srcdir) do
-            # Compilation using the dedicated shell script
-            run("build", "./build.sh")
+    pkg.depends_on 'gui/pangolin'
+
+    def pkg.buildstamp; "autobuild-stamp" end
+
+    def pkg.prepare
+        super
+        isolate_errors do
+            build
+            progress_done
         end
+    end
+
+    def pkg.build
     end
 
     def pkg.install
         super
+        in_dir (srcdir) do
+            # Compilation using the dedicated shell script
+            run("build", "./build.sh")
+        end
 
         # cmake provided by ORB_SLAM2 does not have install. In order to avoid patches Autoproj handles the installation.
         install_prefix = File.join(prefix, "include", name.split('/')[1])
@@ -92,8 +109,6 @@ end
 
 cmake_package 'perception/cpu_tsdf' #TSDF in CPU
 cmake_package 'slam/envire_sam' #Envire wrapper for the Georgia Tech Smooth and Mapping
-
-cmake_package 'gui/pangolin'
 
 #if !has_pcan_api? # defined in init.rb
 #    Autoproj.manifest.add_exclusion "control/platform_driver", "Peak PCI Express Mini needed for platform_driver is not installed!. Install it manually: http://www.peak-system.com/fileadmin/media/linux/index.htm"
