@@ -22,10 +22,6 @@ cmake_package 'slam/gp_odometry' do |pkg| #GP odometry
 end
 
 import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
-    def pkg.prepare
-        super
-    end
-
     def pkg.build
         in_dir (srcdir) do
             # Compilation using the dedicated shell script
