@@ -24,14 +24,9 @@ end
 import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
     def pkg.prepare
         super
-        isolate_errors do
-            build
-            progress_done
-        end
     end
 
     def pkg.build
-        super
         in_dir (srcdir) do
             # Compilation using the dedicated shell script
             run("build", "./build.sh")
