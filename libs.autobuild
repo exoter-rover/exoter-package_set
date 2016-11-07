@@ -31,6 +31,7 @@ import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
     end
 
     def pkg.build
+        super
         in_dir (srcdir) do
             # Compilation using the dedicated shell script
             run("build", "./build.sh")
