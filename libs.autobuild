@@ -11,6 +11,10 @@ cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling li
 ## Pangolin gui 
 cmake_package 'gui/pangolin'
 
+cmake_package 'slam/dso' do |pkg|
+    pkg.define 'DSO_BUILD_STATIC_LIBRARY','OFF'
+end
+
 ## ESA-NPI localization
 cmake_package 'slam/localization' #Localization library
 
@@ -56,26 +60,26 @@ import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
         FileUtils.install(files, File.join(install_prefix))
 
         # g2o includes
-        install_g2o_prefix = File.join(install_prefix, "Thirdparty", "g2o")
-        FileUtils.mkdir_p install_g2o_prefix
-        files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "*.h")).sort
-        FileUtils.install(files, File.join(install_g2o_prefix))
+        #install_g2o_prefix = File.join(install_prefix, "Thirdparty", "g2o")
+        #FileUtils.mkdir_p install_g2o_prefix
+        #files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "*.h")).sort
+        #FileUtils.install(files, File.join(install_g2o_prefix))
 
-        files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "core", "*.h*")).sort
-        FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "core")
-        FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "core"))
+        #files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "core", "*.h*")).sort
+        #FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "core")
+        #FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "core"))
 
-        files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "solvers", "*.h")).sort
-        FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "solvers")
-        FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "solvers"))
+        #files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "solvers", "*.h")).sort
+        #FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "solvers")
+        #FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "solvers"))
 
-        files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "stuff", "*.h")).sort
-        FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "stuff")
-        FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "stuff"))
+        #files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "stuff", "*.h")).sort
+        #FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "stuff")
+        #FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "stuff"))
 
-        files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "types", "*.h*")).sort
-        FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "types")
-        FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "types"))
+        #files = Dir.glob(File.join(srcdir, "Thirdparty", "g2o", "g2o", "types", "*.h*")).sort
+        #FileUtils.mkdir_p File.join(install_g2o_prefix, "g2o", "types")
+        #FileUtils.install(files, File.join(install_g2o_prefix, "g2o", "types"))
 
         # DBoW2 includes
         install_dbow2_prefix = File.join(install_prefix, "Thirdparty", "DBoW2")
@@ -91,7 +95,7 @@ import_package 'slam/orb_slam2' do |pkg| #ORB SLAM2
         lib_prefix = File.join(prefix, "lib")
         FileUtils.mkdir_p lib_prefix
         FileUtils.install(File.join(srcdir, "lib", "libORB_SLAM2.so"), File.join(lib_prefix, "libORB_SLAM2.so"))
-        FileUtils.install(File.join(srcdir, "Thirdparty/g2o/lib/", "libg2o.so"), File.join(lib_prefix, "libg2o.so"))
+        #FileUtils.install(File.join(srcdir, "Thirdparty/g2o/lib/", "libg2o.so"), File.join(lib_prefix, "libg2o.so"))
         FileUtils.install(File.join(srcdir, "Thirdparty/DBoW2/lib/", "libDBoW2.so"), File.join(lib_prefix, "libDBoW2.so"))
 
         # Install the pkgconfig (this can also be done at cmake level)

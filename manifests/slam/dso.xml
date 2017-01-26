@@ -1,0 +1,30 @@
+<package>
+    <description brief="DSO: Direct Sparse Odometry">
+    DSO is a novel direct and sparse formulation for Visual Odometry. It combines a
+    fully direct probabilistic model (minimizing a photometric error) with
+    consistent, joint optimization of all model parameters, including geometry -
+    represented as inverse depth in a reference frame - and camera motion. This is
+    achieved in real time by omitting the smoothness prior used in other direct
+    methods and instead sampling pixels evenly throughout the images. DSO does not
+    depend on keypoint detectors or descriptors, thus it can naturally sample pixels
+    from across all image regions that have intensity gradient, including edges or
+    smooth intensity variations on mostly white walls. The proposed model integrates
+    a full photometric calibration, accounting for exposure time, lens vignetting,
+    and non-linear response functions. We thoroughly evaluate our method on three
+    different datasets comprising several hours of video. The experiments show that
+    the presented approach significantly outperforms state-of-the-art direct and
+    indirect methods in a variety of real-world settings, both in terms of tracking
+    accuracy and robustness.
+    </description>
+    <author>Jakob Engel/engelj@in.tum.de</author>
+    <license>GPLv3.0</license>
+    <url>https://vision.in.tum.de/dso</url>
+    <tags>stable</tags>
+
+    <rosdep name='eigen3'/>
+    <rosdep name='csparse'/>
+    <rosdep name='boost'/>
+    <rosdep name='opencv' optional="1" />
+
+    <depend package="gui/pangolin" optional="1" />
+</package>
