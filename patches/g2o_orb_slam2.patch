@@ -1,0 +1,685 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a23a95e..11f189d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -248,6 +248,22 @@ FIND_PACKAGE(Eigen3 REQUIRED)
+ # Set up the top-level include directories
+ INCLUDE_DIRECTORIES(${g2o_SOURCE_DIR} ${EIGEN3_INCLUDE_DIR})
+ 
++
++# fixing pkgconfig file for eigen3 < 3.1 (solver is not build)
++# set without Eigen 3 solver 
++SET(PKG_CONFIG_EXPORT_LIBS "-lg2o_cli -lg2o_core -lg2o_csparse_extension -lg2o_interface -lg2o_simulator -lg2o_solver_csparse -lg2o_solver_dense -lg2o_solver_pcg -lg2o_solver_slam2d_linear -lg2o_solver_structure_only -lg2o_stuff -lg2o_types_data -lg2o_types_icp -lg2o_types_sba -lg2o_types_sclam2d -lg2o_types_sim3 -lg2o_types_slam2d -lg2o_types_slam3d")
++IF (DEFINED EIGEN3_VERSION)
++  IF(${EIGEN3_VERSION} VERSION_GREATER "3.1.0" OR ${EIGEN3_VERSION} VERSION_EQUAL "3.1.0")
++    # override libs and add eigen3 solver 
++    SET(PKG_CONFIG_EXPORT_LIBS "-lg2o_cli -lg2o_core -lg2o_csparse_extension -lg2o_interface -lg2o_simulator -lg2o_solver_csparse -lg2o_solver_dense -lg2o_solver_eigen -lg2o_solver_pcg -lg2o_solver_slam2d_linear -lg2o_solver_structure_only -lg2o_stuff -lg2o_types_data -lg2o_types_icp -lg2o_types_sba -lg2o_types_sclam2d -lg2o_types_sim3 -lg2o_types_slam2d -lg2o_types_slam3d")
++  ENDIF()
++ENDIF()
++
++configure_file(g2o.pc.in g2o.pc @ONLY)
++install(FILES ${CMAKE_BINARY_DIR}/g2o.pc DESTINATION lib/pkgconfig)
++
++
++
+ # Generate config.h
+ SET(G2O_OPENGL_FOUND ${OPENGL_FOUND})
+ SET(G2O_HAVE_CHOLMOD ${CHOLMOD_FOUND})
+diff --git a/g2o.pc.in b/g2o.pc.in
+new file mode 100644
+index 0000000..6d2900c
+--- /dev/null
++++ b/g2o.pc.in
+@@ -0,0 +1,11 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=${prefix}/lib
++includedir=${prefix}/include
++
++Name: g2o 
++Description: slam backend
++Version: @PROJECT_VERSION@
++Libs: -L${libdir} @PKG_CONFIG_EXPORT_LIBS@
++Cflags: -I${includedir}
++
+diff --git a/g2o/types/sim3/types_seven_dof_expmap.cpp b/g2o/types/sim3/types_seven_dof_expmap.cpp
+index 1db4845..6aaf7f2 100644
+--- a/g2o/types/sim3/types_seven_dof_expmap.cpp
++++ b/g2o/types/sim3/types_seven_dof_expmap.cpp
+@@ -32,21 +32,26 @@
+ namespace g2o {
+ 
+   G2O_USE_TYPE_GROUP(sba);
+-  
++
+   G2O_REGISTER_TYPE_GROUP(sim3);
+ 
+   G2O_REGISTER_TYPE(VERTEX_SIM3:EXPMAP, VertexSim3Expmap);
+   G2O_REGISTER_TYPE(EDGE_SIM3:EXPMAP, EdgeSim3);
+   G2O_REGISTER_TYPE(EDGE_PROJECT_SIM3_XYZ:EXPMAP, EdgeSim3ProjectXYZ);
+-  
++
+   VertexSim3Expmap::VertexSim3Expmap() : BaseVertex<7, Sim3>()
+   {
+     _marginalized=false;
+     _fix_scale = false;
+-    _principle_point[0] = 0;
+-    _principle_point[1] = 0;
+-    _focal_length[0] = 1;
+-    _focal_length[1] = 1;
++    _principle_point1[0] = 0;
++    _principle_point1[1] = 0;
++    _principle_point2[0] = 0;
++    _principle_point2[1] = 0;
++    _focal_length1[0] = 1;
++    _focal_length1[1] = 1;
++    _focal_length2[0] = 1;
++    _focal_length2[1] = 1;
++
+   }
+ 
+ 
+@@ -71,11 +76,11 @@ namespace g2o {
+ 
+     for (int i=0; i<2; i++)
+     {
+-      is >> _focal_length[i];
++      is >> _focal_length1[i];
+     }
+     for (int i=0; i<2; i++)
+     {
+-      is >> _principle_point[i];
++      is >> _principle_point1[i];
+     }
+ 
+     setEstimate(Sim3(cam2world).inverse());
+@@ -91,11 +96,11 @@ namespace g2o {
+     }
+     for (int i=0; i<2; i++)
+     {
+-      os << _focal_length[i] << " ";
++      os << _focal_length1[i] << " ";
+     }
+     for (int i=0; i<2; i++)
+     {
+-      os << _principle_point[i] << " ";
++      os << _principle_point1[i] << " ";
+     }
+     return os.good();
+   }
+@@ -171,6 +176,43 @@ namespace g2o {
+     return os.good();
+   }
+ 
++/**InverseSim3ProjectXYZ*/
++
++  EdgeInverseSim3ProjectXYZ::EdgeInverseSim3ProjectXYZ() :
++  BaseBinaryEdge<2, Vector2D, VertexSBAPointXYZ, VertexSim3Expmap>()
++  {
++  }
++
++  bool EdgeInverseSim3ProjectXYZ::read(std::istream& is)
++  {
++    for (int i=0; i<2; i++)
++    {
++      is >> _measurement[i];
++    }
++
++    for (int i=0; i<2; i++)
++      for (int j=i; j<2; j++) {
++  is >> information()(i,j);
++      if (i!=j)
++        information()(j,i)=information()(i,j);
++    }
++    return true;
++  }
++
++  bool EdgeInverseSim3ProjectXYZ::write(std::ostream& os) const
++  {
++    for (int i=0; i<2; i++){
++      os  << _measurement[i] << " ";
++    }
++
++    for (int i=0; i<2; i++)
++      for (int j=i; j<2; j++){
++  os << " " <<  information()(i,j);
++    }
++    return os.good();
++  }
++
++
+ //  void EdgeSim3ProjectXYZ::linearizeOplus()
+ //  {
+ //    VertexSim3Expmap * vj = static_cast<VertexSim3Expmap *>(_vertices[1]);
+@@ -214,4 +256,313 @@ namespace g2o {
+ //    _jacobianOplusXj(1,6) = 0; // scale is ignored
+ //  }
+ 
++Vector2D project2d(const Vector3D& v)  {
++  Vector2D res;
++  res(0) = v(0)/v(2);
++  res(1) = v(1)/v(2);
++  return res;
++}
++
++Vector3D unproject2d(const Vector2D& v)  {
++  Vector3D res;
++  res(0) = v(0);
++  res(1) = v(1);
++  res(2) = 1;
++  return res;
++}
++
++
++EdgeSE3ProjectXYZ::EdgeSE3ProjectXYZ() : BaseBinaryEdge<2, Vector2D, VertexSBAPointXYZ, VertexSE3Expmap>() {
++}
++
++bool EdgeSE3ProjectXYZ::read(std::istream& is){
++  for (int i=0; i<2; i++){
++    is >> _measurement[i];
++  }
++  for (int i=0; i<2; i++)
++    for (int j=i; j<2; j++) {
++      is >> information()(i,j);
++      if (i!=j)
++        information()(j,i)=information()(i,j);
++    }
++  return true;
++}
++
++bool EdgeSE3ProjectXYZ::write(std::ostream& os) const {
++
++  for (int i=0; i<2; i++){
++    os << measurement()[i] << " ";
++  }
++
++  for (int i=0; i<2; i++)
++    for (int j=i; j<2; j++){
++      os << " " <<  information()(i,j);
++    }
++  return os.good();
++}
++
++
++void EdgeSE3ProjectXYZ::linearizeOplus() {
++  VertexSE3Expmap * vj = static_cast<VertexSE3Expmap *>(_vertices[1]);
++  SE3Quat T(vj->estimate());
++  VertexSBAPointXYZ* vi = static_cast<VertexSBAPointXYZ*>(_vertices[0]);
++  Vector3D xyz = vi->estimate();
++  Vector3D xyz_trans = T.map(xyz);
++
++  double x = xyz_trans[0];
++  double y = xyz_trans[1];
++  double z = xyz_trans[2];
++  double z_2 = z*z;
++
++  Eigen::Matrix<double,2,3> tmp;
++  tmp(0,0) = fx;
++  tmp(0,1) = 0;
++  tmp(0,2) = -x/z*fx;
++
++  tmp(1,0) = 0;
++  tmp(1,1) = fy;
++  tmp(1,2) = -y/z*fy;
++
++  _jacobianOplusXi =  -1./z * tmp * T.rotation().toRotationMatrix();
++
++  _jacobianOplusXj(0,0) =  x*y/z_2 *fx;
++  _jacobianOplusXj(0,1) = -(1+(x*x/z_2)) *fx;
++  _jacobianOplusXj(0,2) = y/z *fx;
++  _jacobianOplusXj(0,3) = -1./z *fx;
++  _jacobianOplusXj(0,4) = 0;
++  _jacobianOplusXj(0,5) = x/z_2 *fx;
++
++  _jacobianOplusXj(1,0) = (1+y*y/z_2) *fy;
++  _jacobianOplusXj(1,1) = -x*y/z_2 *fy;
++  _jacobianOplusXj(1,2) = -x/z *fy;
++  _jacobianOplusXj(1,3) = 0;
++  _jacobianOplusXj(1,4) = -1./z *fy;
++  _jacobianOplusXj(1,5) = y/z_2 *fy;
++}
++
++Vector2D EdgeSE3ProjectXYZ::cam_project(const Vector3D & trans_xyz) const{
++  Vector2D proj = project2d(trans_xyz);
++  Vector2D res;
++  res[0] = proj[0]*fx + cx;
++  res[1] = proj[1]*fy + cy;
++  return res;
++}
++
++
++Vector3D EdgeStereoSE3ProjectXYZ::cam_project(const Vector3D & trans_xyz, const float &bf) const{
++  const float invz = 1.0f/trans_xyz[2];
++  Vector3D res;
++  res[0] = trans_xyz[0]*invz*fx + cx;
++  res[1] = trans_xyz[1]*invz*fy + cy;
++  res[2] = res[0] - bf*invz;
++  return res;
++}
++
++EdgeStereoSE3ProjectXYZ::EdgeStereoSE3ProjectXYZ() : BaseBinaryEdge<3, Vector3D, VertexSBAPointXYZ, VertexSE3Expmap>() {
++}
++
++bool EdgeStereoSE3ProjectXYZ::read(std::istream& is){
++  for (int i=0; i<=3; i++){
++    is >> _measurement[i];
++  }
++  for (int i=0; i<=2; i++)
++    for (int j=i; j<=2; j++) {
++      is >> information()(i,j);
++      if (i!=j)
++        information()(j,i)=information()(i,j);
++    }
++  return true;
++}
++
++bool EdgeStereoSE3ProjectXYZ::write(std::ostream& os) const {
++
++  for (int i=0; i<=3; i++){
++    os << measurement()[i] << " ";
++  }
++
++  for (int i=0; i<=2; i++)
++    for (int j=i; j<=2; j++){
++      os << " " <<  information()(i,j);
++    }
++  return os.good();
++}
++
++void EdgeStereoSE3ProjectXYZ::linearizeOplus() {
++  VertexSE3Expmap * vj = static_cast<VertexSE3Expmap *>(_vertices[1]);
++  SE3Quat T(vj->estimate());
++  VertexSBAPointXYZ* vi = static_cast<VertexSBAPointXYZ*>(_vertices[0]);
++  Vector3D xyz = vi->estimate();
++  Vector3D xyz_trans = T.map(xyz);
++
++  const Matrix3D R =  T.rotation().toRotationMatrix();
++
++  double x = xyz_trans[0];
++  double y = xyz_trans[1];
++  double z = xyz_trans[2];
++  double z_2 = z*z;
++
++  _jacobianOplusXi(0,0) = -fx*R(0,0)/z+fx*x*R(2,0)/z_2;
++  _jacobianOplusXi(0,1) = -fx*R(0,1)/z+fx*x*R(2,1)/z_2;
++  _jacobianOplusXi(0,2) = -fx*R(0,2)/z+fx*x*R(2,2)/z_2;
++
++  _jacobianOplusXi(1,0) = -fy*R(1,0)/z+fy*y*R(2,0)/z_2;
++  _jacobianOplusXi(1,1) = -fy*R(1,1)/z+fy*y*R(2,1)/z_2;
++  _jacobianOplusXi(1,2) = -fy*R(1,2)/z+fy*y*R(2,2)/z_2;
++
++  _jacobianOplusXi(2,0) = _jacobianOplusXi(0,0)-bf*R(2,0)/z_2;
++  _jacobianOplusXi(2,1) = _jacobianOplusXi(0,1)-bf*R(2,1)/z_2;
++  _jacobianOplusXi(2,2) = _jacobianOplusXi(0,2)-bf*R(2,2)/z_2;
++
++  _jacobianOplusXj(0,0) =  x*y/z_2 *fx;
++  _jacobianOplusXj(0,1) = -(1+(x*x/z_2)) *fx;
++  _jacobianOplusXj(0,2) = y/z *fx;
++  _jacobianOplusXj(0,3) = -1./z *fx;
++  _jacobianOplusXj(0,4) = 0;
++  _jacobianOplusXj(0,5) = x/z_2 *fx;
++
++  _jacobianOplusXj(1,0) = (1+y*y/z_2) *fy;
++  _jacobianOplusXj(1,1) = -x*y/z_2 *fy;
++  _jacobianOplusXj(1,2) = -x/z *fy;
++  _jacobianOplusXj(1,3) = 0;
++  _jacobianOplusXj(1,4) = -1./z *fy;
++  _jacobianOplusXj(1,5) = y/z_2 *fy;
++
++  _jacobianOplusXj(2,0) = _jacobianOplusXj(0,0)-bf*y/z_2;
++  _jacobianOplusXj(2,1) = _jacobianOplusXj(0,1)+bf*x/z_2;
++  _jacobianOplusXj(2,2) = _jacobianOplusXj(0,2);
++  _jacobianOplusXj(2,3) = _jacobianOplusXj(0,3);
++  _jacobianOplusXj(2,4) = 0;
++  _jacobianOplusXj(2,5) = _jacobianOplusXj(0,5)-bf/z_2;
++}
++
++
++//Only Pose
++
++bool EdgeSE3ProjectXYZOnlyPose::read(std::istream& is){
++  for (int i=0; i<2; i++){
++    is >> _measurement[i];
++  }
++  for (int i=0; i<2; i++)
++    for (int j=i; j<2; j++) {
++      is >> information()(i,j);
++      if (i!=j)
++        information()(j,i)=information()(i,j);
++    }
++  return true;
++}
++
++bool EdgeSE3ProjectXYZOnlyPose::write(std::ostream& os) const {
++
++  for (int i=0; i<2; i++){
++    os << measurement()[i] << " ";
++  }
++
++  for (int i=0; i<2; i++)
++    for (int j=i; j<2; j++){
++      os << " " <<  information()(i,j);
++    }
++  return os.good();
++}
++
++
++void EdgeSE3ProjectXYZOnlyPose::linearizeOplus() {
++  VertexSE3Expmap * vi = static_cast<VertexSE3Expmap *>(_vertices[0]);
++  Vector3D xyz_trans = vi->estimate().map(Xw);
++
++  double x = xyz_trans[0];
++  double y = xyz_trans[1];
++  double invz = 1.0/xyz_trans[2];
++  double invz_2 = invz*invz;
++
++  _jacobianOplusXi(0,0) =  x*y*invz_2 *fx;
++  _jacobianOplusXi(0,1) = -(1+(x*x*invz_2)) *fx;
++  _jacobianOplusXi(0,2) = y*invz *fx;
++  _jacobianOplusXi(0,3) = -invz *fx;
++  _jacobianOplusXi(0,4) = 0;
++  _jacobianOplusXi(0,5) = x*invz_2 *fx;
++
++  _jacobianOplusXi(1,0) = (1+y*y*invz_2) *fy;
++  _jacobianOplusXi(1,1) = -x*y*invz_2 *fy;
++  _jacobianOplusXi(1,2) = -x*invz *fy;
++  _jacobianOplusXi(1,3) = 0;
++  _jacobianOplusXi(1,4) = -invz *fy;
++  _jacobianOplusXi(1,5) = y*invz_2 *fy;
++}
++
++Vector2D EdgeSE3ProjectXYZOnlyPose::cam_project(const Vector3D & trans_xyz) const{
++  Vector2D proj = project2d(trans_xyz);
++  Vector2D res;
++  res[0] = proj[0]*fx + cx;
++  res[1] = proj[1]*fy + cy;
++  return res;
++}
++
++
++Vector3D EdgeStereoSE3ProjectXYZOnlyPose::cam_project(const Vector3D & trans_xyz) const{
++  const float invz = 1.0f/trans_xyz[2];
++  Vector3D res;
++  res[0] = trans_xyz[0]*invz*fx + cx;
++  res[1] = trans_xyz[1]*invz*fy + cy;
++  res[2] = res[0] - bf*invz;
++  return res;
++}
++
++
++bool EdgeStereoSE3ProjectXYZOnlyPose::read(std::istream& is){
++  for (int i=0; i<=3; i++){
++    is >> _measurement[i];
++  }
++  for (int i=0; i<=2; i++)
++    for (int j=i; j<=2; j++) {
++      is >> information()(i,j);
++      if (i!=j)
++        information()(j,i)=information()(i,j);
++    }
++  return true;
++}
++
++bool EdgeStereoSE3ProjectXYZOnlyPose::write(std::ostream& os) const {
++
++  for (int i=0; i<=3; i++){
++    os << measurement()[i] << " ";
++  }
++
++  for (int i=0; i<=2; i++)
++    for (int j=i; j<=2; j++){
++      os << " " <<  information()(i,j);
++    }
++  return os.good();
++}
++
++void EdgeStereoSE3ProjectXYZOnlyPose::linearizeOplus() {
++  VertexSE3Expmap * vi = static_cast<VertexSE3Expmap *>(_vertices[0]);
++  Vector3D xyz_trans = vi->estimate().map(Xw);
++
++  double x = xyz_trans[0];
++  double y = xyz_trans[1];
++  double invz = 1.0/xyz_trans[2];
++  double invz_2 = invz*invz;
++
++  _jacobianOplusXi(0,0) =  x*y*invz_2 *fx;
++  _jacobianOplusXi(0,1) = -(1+(x*x*invz_2)) *fx;
++  _jacobianOplusXi(0,2) = y*invz *fx;
++  _jacobianOplusXi(0,3) = -invz *fx;
++  _jacobianOplusXi(0,4) = 0;
++  _jacobianOplusXi(0,5) = x*invz_2 *fx;
++
++  _jacobianOplusXi(1,0) = (1+y*y*invz_2) *fy;
++  _jacobianOplusXi(1,1) = -x*y*invz_2 *fy;
++  _jacobianOplusXi(1,2) = -x*invz *fy;
++  _jacobianOplusXi(1,3) = 0;
++  _jacobianOplusXi(1,4) = -invz *fy;
++  _jacobianOplusXi(1,5) = y*invz_2 *fy;
++
++  _jacobianOplusXi(2,0) = _jacobianOplusXi(0,0)-bf*y*invz_2;
++  _jacobianOplusXi(2,1) = _jacobianOplusXi(0,1)+bf*x*invz_2;
++  _jacobianOplusXi(2,2) = _jacobianOplusXi(0,2);
++  _jacobianOplusXi(2,3) = _jacobianOplusXi(0,3);
++  _jacobianOplusXi(2,4) = 0;
++  _jacobianOplusXi(2,5) = _jacobianOplusXi(0,5)-bf*invz_2;
++}
++
+ } // end namespace
+diff --git a/g2o/types/sim3/types_seven_dof_expmap.h b/g2o/types/sim3/types_seven_dof_expmap.h
+index c030fb3..b7219c4 100644
+--- a/g2o/types/sim3/types_seven_dof_expmap.h
++++ b/g2o/types/sim3/types_seven_dof_expmap.h
+@@ -24,11 +24,16 @@
+ // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++// Modified by Raúl Mur Artal (2014)
++// - Added EdgeInverseSim3ProjectXYZ 
++// - Modified VertexSim3Expmap to represent relative transformation between two cameras. Includes calibration of both cameras.
++
+ #ifndef G2O_SEVEN_DOF_EXPMAP_TYPES
+ #define G2O_SEVEN_DOF_EXPMAP_TYPES
+ 
+ #include "g2o/core/base_vertex.h"
+ #include "g2o/core/base_binary_edge.h"
++#include "g2o/core/base_unary_edge.h"
+ #include "g2o/types/sba/types_six_dof_expmap.h"
+ #include "sim3.h"
+ 
+@@ -63,14 +68,22 @@ namespace g2o {
+       setEstimate(s*estimate());
+     }
+ 
+-    Vector2D _principle_point;
+-    Vector2D _focal_length;
++    Vector2D _principle_point1, _principle_point2;
++    Vector2D _focal_length1, _focal_length2;
++
++    Vector2D cam_map1(const Vector2D & v) const
++    {
++      Vector2D res;
++      res[0] = v[0]*_focal_length1[0] + _principle_point1[0];
++      res[1] = v[1]*_focal_length1[1] + _principle_point1[1];
++      return res;
++    }
+ 
+-    Vector2D cam_map(const Vector2D & v) const
++    Vector2D cam_map2(const Vector2D & v) const
+     {
+       Vector2D res;
+-      res[0] = v[0]*_focal_length[0] + _principle_point[0];
+-      res[1] = v[1]*_focal_length[1] + _principle_point[1];
++      res[0] = v[0]*_focal_length2[0] + _principle_point2[0];
++      res[1] = v[1]*_focal_length2[1] + _principle_point2[1];
+       return res;
+     }
+ 
+@@ -128,13 +141,167 @@ class EdgeSim3ProjectXYZ : public  BaseBinaryEdge<2, Vector2D,  VertexSBAPointXY
+       const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
+ 
+       Vector2D obs(_measurement);
+-      _error = obs-v1->cam_map(project(v1->estimate().map(v2->estimate())));
++      _error = obs-v1->cam_map1(project(v1->estimate().map(v2->estimate())));
+     }
+ 
+    // virtual void linearizeOplus();
+ 
+ };
+ 
++/**/
++class EdgeInverseSim3ProjectXYZ : public  BaseBinaryEdge<2, Vector2D,  VertexSBAPointXYZ, VertexSim3Expmap>
++{
++  public:
++    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
++    EdgeInverseSim3ProjectXYZ();
++    virtual bool read(std::istream& is);
++    virtual bool write(std::ostream& os) const;
++
++    void computeError()
++    {
++      const VertexSim3Expmap* v1 = static_cast<const VertexSim3Expmap*>(_vertices[1]);
++      const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
++
++      Vector2D obs(_measurement);
++      _error = obs-v1->cam_map2(project(v1->estimate().inverse().map(v2->estimate())));
++    }
++
++   // virtual void linearizeOplus();
++
++};
++
++typedef Eigen::Matrix<double, 6, 1, Eigen::ColMajor> Vector6D;
++typedef Eigen::Matrix<double, 6, 6, Eigen::ColMajor> Matrix6D;
++
++class  EdgeSE3ProjectXYZ: public  BaseBinaryEdge<2, Vector2D, VertexSBAPointXYZ, VertexSE3Expmap>
++{
++public:
++  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
++
++  EdgeSE3ProjectXYZ();
++
++  bool read(std::istream& is);
++
++  bool write(std::ostream& os) const;
++
++  void computeError()  {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[1]);
++    const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
++    Vector2D obs(_measurement);
++    _error = obs-cam_project(v1->estimate().map(v2->estimate()));
++  }
++
++  bool isDepthPositive() {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[1]);
++    const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
++    return (v1->estimate().map(v2->estimate()))(2)>0.0;
++  }
++
++  virtual void linearizeOplus();
++
++  Vector2D cam_project(const Vector3D & trans_xyz) const;
++
++  double fx, fy, cx, cy;
++};
++
++
++class  EdgeStereoSE3ProjectXYZ: public  BaseBinaryEdge<3, Vector3D, VertexSBAPointXYZ, VertexSE3Expmap>
++{
++public:
++  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
++
++  EdgeStereoSE3ProjectXYZ();
++
++  bool read(std::istream& is);
++
++  bool write(std::ostream& os) const;
++
++  void computeError()  {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[1]);
++    const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
++    Vector3D obs(_measurement);
++    _error = obs - cam_project(v1->estimate().map(v2->estimate()),bf);
++  }
++
++  bool isDepthPositive() {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[1]);
++    const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
++    return (v1->estimate().map(v2->estimate()))(2)>0.0;
++  }
++
++
++  virtual void linearizeOplus();
++
++  Vector3D cam_project(const Vector3D & trans_xyz, const float &bf) const;
++
++  double fx, fy, cx, cy, bf;
++};
++
++class  EdgeSE3ProjectXYZOnlyPose: public  BaseUnaryEdge<2, Vector2D, VertexSE3Expmap>
++{
++public:
++  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
++
++  EdgeSE3ProjectXYZOnlyPose(){}
++
++  bool read(std::istream& is);
++
++  bool write(std::ostream& os) const;
++
++  void computeError()  {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
++    Vector2D obs(_measurement);
++    _error = obs-cam_project(v1->estimate().map(Xw));
++  }
++
++  bool isDepthPositive() {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
++    return (v1->estimate().map(Xw))(2)>0.0;
++  }
++
++
++  virtual void linearizeOplus();
++
++  Vector2D cam_project(const Vector3D & trans_xyz) const;
++
++  Vector3D Xw;
++  double fx, fy, cx, cy;
++};
++
++
++class  EdgeStereoSE3ProjectXYZOnlyPose: public  BaseUnaryEdge<3, Vector3D, VertexSE3Expmap>
++{
++public:
++  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
++
++  EdgeStereoSE3ProjectXYZOnlyPose(){}
++
++  bool read(std::istream& is);
++
++  bool write(std::ostream& os) const;
++
++  void computeError()  {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
++    Vector3D obs(_measurement);
++    _error = obs - cam_project(v1->estimate().map(Xw));
++  }
++
++  bool isDepthPositive() {
++    const VertexSE3Expmap* v1 = static_cast<const VertexSE3Expmap*>(_vertices[0]);
++    return (v1->estimate().map(Xw))(2)>0.0;
++  }
++
++
++  virtual void linearizeOplus();
++
++  Vector3D cam_project(const Vector3D & trans_xyz) const;
++
++  Vector3D Xw;
++  double fx, fy, cx, cy, bf;
++};
++
++
+ } // end namespace
+ 
+ #endif
++

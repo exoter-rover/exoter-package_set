@@ -38,6 +38,16 @@ version_control:
     - slam/threed_odometry:
       github: rock-slam/slam-threed_odometry
 
+    - slam/dso:
+      github: JakobEngel/dso.git
+      branch: master
+
+    - slam/g2o:
+      github: RainerKuemmerle/g2o.git
+      branch: master
+      patches:
+            - $AUTOPROJ_SOURCE_DIR/patches/g2o_orb_slam2.patch
+
     - slam/orogen/threed_odometry:
       github: rock-slam/slam-orogen-threed_odometry
 
@@ -121,9 +131,4 @@ version_control:
     - gui/pangolin:
       github: stevenlovegrove/Pangolin.git
       tag: v0.5
-
-    - slam/dso:
-        github: JakobEngel/dso.git
-        branch: master
-
 

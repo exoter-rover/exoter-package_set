@@ -8,6 +8,20 @@ cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 
 cmake_package 'drivers/ar_tracking' #Advanced Realtime Tracking System
 cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling library to talk to RAT GCS
 
+cmake_package 'slam/g2o' do |pkg|
+    pkg.define("CMAKE_BUILD_TYPE", "RelWithDebInfo")
+    pkg.define("CMAKE_RELWITHDEBINFO_POSTFIX", "")
+    pkg.source_tree_excludes << /doc\/doxygen/
+    pkg.doc_dir = File.join(pkg.srcdir, 'doc', 'doxygen', 'html')
+    pkg.doc_task do
+        pkg.in_dir(File.join(pkg.srcdir, 'doc', 'doxygen')) do
+            pkg.progress_start "generating documentation for %s", :done_message => 'generated documentation for %s' do
+                Autobuild::Subprocess.run(pkg, 'doc', Autobuild.tool(:doxygen), "doxy.config")
+            end
+        end
+    end
+end
+
 ## Pangolin gui 
 cmake_package 'gui/pangolin'
 
