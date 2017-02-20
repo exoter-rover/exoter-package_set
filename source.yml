@@ -97,6 +97,12 @@ version_control:
     - drivers/orogen/platform_driver:
       github: exoter-rover/drivers-orogen-platform_driver
 
+    - drivers/imu_stim300:
+      github: rock-drivers/drivers-imu_stim300
+
+    - drivers/orogen/imu_stim300:
+      github: rock-drivers/drivers-orogen-imu_stim300
+
     - drivers/ar_tracking:
       github: rock-drivers/drivers-ar_tracking
 

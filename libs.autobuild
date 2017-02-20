@@ -7,6 +7,7 @@ cmake_package 'drivers/platform_driver' #Elmo driver
 cmake_package 'control/generic_rover_manoeuvre' #Generic rover manoeuvre to map 2D motion commands to required joint commands
 cmake_package 'drivers/ar_tracking' #Advanced Realtime Tracking System
 cmake_package 'drivers/telemetry_telecommand' #Dedicated ExoTer Data Handling library to talk to RAT GCS
+cmake_package 'drivers/imu_stim300' #Driver for the IMU stim300k
 
 cmake_package 'slam/g2o' do |pkg|
     pkg.define("CMAKE_BUILD_TYPE", "RelWithDebInfo")

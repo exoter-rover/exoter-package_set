@@ -6,6 +6,7 @@ if package_enabled?('orogen')
     orogen_package 'drivers/orogen/platform_driver'
     orogen_package 'drivers/orogen/camera_bb2'
     orogen_package 'drivers/orogen/ar_tracking'
+    orogen_package 'drivers/orogen/imu_stim300'
 
     # Exoter dedicated packages
     orogen_package 'exoter/orogen/exoter_deployments'
@@ -23,6 +24,7 @@ if package_enabled?('orogen')
 
     # Localization
     orogen_package 'slam/orogen/gp_odometry'
+    orogen_package 'slam/orogen/threed_odometry'
 
     # Perception
     orogen_package 'perception/orogen/visual_stereo'
