@@ -86,6 +86,11 @@ version_control:
       url: $GITHUB_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
       push_to: $GITHUB_PUSH_ROOT/jhidalgocarrio/perception-orogen-visual_stereo.git
 
+    - drivers/activeMQ:
+      type: archive
+      url: http://mirror.stjschools.org/public/apache/activemq/activemq-cpp/3.9.3/activemq-cpp-library-3.9.3-src.tar.gz
+      update_cached_file: false
+
     - drivers/pcan_pcie_mini:
       type: archive
       url: http://www.peak-system.com/fileadmin/media/linux/files/peak-linux-driver-7.15.2.tar.gz

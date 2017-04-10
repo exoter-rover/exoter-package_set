@@ -9,3 +9,6 @@ sdl-dev:
 
 glew:
     debian,ubuntu: libglew-dev
+
+apr1:
+    debian,ubuntu: libapr1-dev

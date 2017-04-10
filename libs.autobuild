@@ -23,6 +23,38 @@ cmake_package 'slam/g2o' do |pkg|
     end
 end
 
+#Needed for Telemetry Telecommand, communication broker based on ActiveMQ
+##protocol
+import_package 'drivers/activeMQ' do |pkg|
+
+    def pkg.buildstamp; "autobuild-stamp" end
+
+    def pkg.prepare
+        super
+        in_dir(srcdir) do
+            run("prepare_configure","./configure", "--prefix=#{Autobuild.prefix}")
+        end
+        isolate_errors do
+            build
+            progress_done
+        end
+    end
+
+    def pkg.build
+        in_dir(srcdir) do
+            run("build", Autobuild.tool(:make))
+        end
+    end
+
+    def pkg.install
+        super
+        in_dir(srcdir) do
+            run("install", "make install")
+        end
+        FileUtils.install(File.join(srcdir, "activemq-cpp.pc"), File.join(prefix, 'lib', "pkgconfig", "activemq-cpp.pc"))
+    end
+end
+
 ## Pangolin gui 
 cmake_package 'gui/pangolin'
 

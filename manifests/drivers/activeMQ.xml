@@ -1,0 +1,10 @@
+<package>
+    <description brief="Active MQ">
+    Apache ActiveMQ is an open source message broker written in Java together with a full Java Message Service (JMS) client.
+    </description>
+    <author>Apache Software Foundation/ </author>
+    <license> Apache License 2.0</license>
+    <url>http://activemq.apache.org</url>
+    <rosdep name="apr1" />
+    <tags>stable</tags>
+</package>
