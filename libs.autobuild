@@ -1,4 +1,5 @@
 ## Define here packages that are not dependent on oroGen
+cmake_package 'perception/dem_generation' # Generates a DEM
 cmake_package 'drivers/gnss_trimble' #GNSS driver
 cmake_package 'exoter/exoter_kinematics' #Dedicated ExoTer Kinematics library
 cmake_package 'exoter/exoter_dynamics' #Dedicated ExoTer Dynamics library
