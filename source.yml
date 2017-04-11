@@ -132,6 +132,10 @@ version_control:
       github: rock-drivers/drivers-orogen-camera_bb2.git
       branch: $ROCK_FLAVOR
 
+# TODO: Move to a HDPR package set if it has been generated
+    - drivers/orogen/camera_trigger:
+      github: hdpr-rover/drivers-orogen-camera_trigger.git
+
     - drivers/exar_pcie_uart:
       github: exoter-rover/drivers-$PACKAGE_BASENAME
 

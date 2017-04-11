@@ -5,6 +5,7 @@ if package_enabled?('orogen')
     # Exoter Drivers
     orogen_package 'drivers/orogen/platform_driver'
     orogen_package 'drivers/orogen/camera_bb2'
+    orogen_package 'drivers/orogen/camera_trigger'
     orogen_package 'drivers/orogen/ar_tracking'
     orogen_package 'drivers/orogen/imu_stim300'
 
