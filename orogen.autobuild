@@ -31,7 +31,8 @@ if package_enabled?('orogen')
     orogen_package 'perception/orogen/dem_generation'
 
     # Planning
-    orogen_package 'perception/orogen/trajectory_helpers'
+    orogen_package 'planning/orogen/trajectory_helpers'
+    orogen_package 'planning/orogen/traversability_explorer'
 
     # Registration
     orogen_package 'slam/orogen/icp'

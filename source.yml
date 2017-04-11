@@ -157,6 +157,9 @@ version_control:
       github: exoter-rover/planning-orogen-trajectory_helpers
       branch: sargon
 
+    - planning/orogen/traversability_explorer:
+      github: exoter-rover/planning-orogen-traversability_explorer
+
     - gui/pangolin:
       github: stevenlovegrove/Pangolin.git
       tag: v0.5
