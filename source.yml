@@ -114,6 +114,14 @@ version_control:
     - drivers/orogen/ar_tracking:
       github: rock-drivers/drivers-orogen-ar_tracking
 
+    - drivers/controldev:
+      github: rock-drivers/drivers-controldev.git
+      branch: onedimensional
+
+    - drivers/orogen/controldev:
+      github: rock-drivers/drivers-orogen-controldev.git
+      branch: onedimensional
+
     - drivers/gnss_trimble:
       github: rock-drivers/drivers-gnss_trimble.git
 
@@ -144,6 +152,10 @@ version_control:
 
     - perception/orogen/dem_generation:
       github: exoter-rover/perception-orogen-dem_generation
+
+    - planning/orogen/trajectory_helpers:
+      github: exoter-rover/planning-orogen-trajectory_helpers
+      branch: sargon
 
     - gui/pangolin:
       github: stevenlovegrove/Pangolin.git
