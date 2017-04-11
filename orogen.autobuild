@@ -25,6 +25,7 @@ if package_enabled?('orogen')
     orogen_package 'control/orogen/egress_control'
     orogen_package 'control/orogen/simple_pose'
     orogen_package 'control/orogen/command_arbiter'
+    orogen_package 'control/orogen/motion_translator'
 
     # Localization
     orogen_package 'slam/orogen/gp_odometry'

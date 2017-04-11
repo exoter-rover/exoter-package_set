@@ -14,6 +14,11 @@ version_control:
     - control/orogen/.*:
       github: exoter-rover/control-orogen-$PACKAGE_BASENAME
 
+# TODO: Move to a HDPR package set if it has been generated
+    - control/orogen/motion_translator:
+      github: hdpr-rover/control-orogen-motion_translator
+      branch: sargon
+
     - bundles/exoter:
       github: exoter-rover/bundles-$PACKAGE_BASENAME
 
