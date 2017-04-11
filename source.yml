@@ -173,6 +173,9 @@ version_control:
     - planning/orogen/traversability_explorer:
       github: exoter-rover/planning-orogen-traversability_explorer
 
+    - planning/orogen/traversability_loader:
+      github: exoter-rover/planning-orogen-traversability_loader
+
     - gui/pangolin:
       github: stevenlovegrove/Pangolin.git
       tag: v0.5

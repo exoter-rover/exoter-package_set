@@ -38,6 +38,7 @@ if package_enabled?('orogen')
     # Planning
     orogen_package 'planning/orogen/trajectory_helpers'
     orogen_package 'planning/orogen/traversability_explorer'
+    orogen_package 'planning/orogen/traversability_loader'
 
     # Registration
     orogen_package 'slam/orogen/icp'
