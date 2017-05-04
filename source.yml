@@ -166,6 +166,12 @@ version_control:
     - perception/orogen/dem_generation:
       github: exoter-rover/perception-orogen-dem_generation
 
+    - perception/cartographer:
+      github: exoter-rover/perception-dem_generation
+
+    - perception/orogen/cartographer:
+      github: exoter-rover/perception-orogen-dem_generation
+
     - planning/orogen/trajectory_helpers:
       github: exoter-rover/planning-orogen-trajectory_helpers
       branch: sargon

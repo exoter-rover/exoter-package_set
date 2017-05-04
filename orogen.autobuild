@@ -34,6 +34,7 @@ if package_enabled?('orogen')
     # Perception
     orogen_package 'perception/orogen/visual_stereo'
     orogen_package 'perception/orogen/dem_generation'
+    orogen_package 'perception/orogen/cartographer'
 
     # Planning
     orogen_package 'planning/orogen/trajectory_helpers'
